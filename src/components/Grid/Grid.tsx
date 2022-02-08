@@ -21,6 +21,7 @@ const Grid: FC = () => {
     const [hasEnded, setHasEnded] = useState<boolean>(false);
     const [showModal, setShowModal] = useState<boolean>(false);
     const { isRunning, resume, restart, stop, getTimeFormatted, minutes, seconds } = useTimer(100);
+    const [clickCount, setClickCount] = useState<number>(0);
 
     const playAgain = () => {
         setHasEnded(false);
@@ -57,6 +58,7 @@ const Grid: FC = () => {
                 prev_x = temp[0];
                 prev_y = temp[1];
             }
+            setClickCount(clickCount + 1);
             setEmpty([x, y]);
         }
         const win = cells.every(cell => cell.x === cell.expectedX && cell.y === cell.expectedY);
@@ -100,7 +102,10 @@ const Grid: FC = () => {
                 <button onClick={playAgain}>Play Again</button>
             </div>
         </Modal>
-        <div className='timer'>{getTimeFormatted(0)}</div>
+        <div className='stats'>
+            <p>{getTimeFormatted(0)}</p>
+            <p>{clickCount} clicks</p>
+        </div>
         {
             cells.map(cell => <Cell
                 key={cell.index}
