@@ -104,6 +104,7 @@ const Grid: FC = () => {
         </Modal>
         <div className='stats'>
             <p>{getTimeFormatted(0)}</p>
+            <h1>Fifteen Puzzle</h1>
             <p>{clickCount} clicks</p>
         </div>
         {

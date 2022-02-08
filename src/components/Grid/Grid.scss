@@ -8,23 +8,29 @@
 	box-shadow: 0 0 300px 200px rgba(0, 0, 0, 0.1);
 }
 
-.win-message {
-	font-size: 2em;
-	font-weight: bold;
-	color: rgb(40, 40, 40);
-	position: absolute;
-	top: 55px;
-	left: 50%;
-	transform: translateX(-50%);
-}
-
 .stats {
-	width: 100px;
+	width: 90%;
+	max-width: 600px;
 	font-family: "Ubuntu Mono";
 	font-size: 1.5em;
-	color: rgb(40, 40, 40);
+	color: rgb(15, 15, 15);
+	font-weight: 300;
 	position: absolute;
-	top: 55px;
-	left: 100%;
-	transform: translate(-180%, 40%);
+	top: 30px;
+	left: 50%;
+	transform: translate(-50%, 0);
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+
+	h1 {
+		font-size: 1.5em;
+		font-weight: 600;
+		color: rgb(15, 15, 15);
+		margin: 14px;
+	}
+
+	:first-child {
+		width: 105px;
+	}
 }
