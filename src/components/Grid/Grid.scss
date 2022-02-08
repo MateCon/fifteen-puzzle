@@ -1,0 +1,29 @@
+@import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:regular,italic,700,700italic);
+
+.grid-shadow {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	box-shadow: 0 0 300px 200px rgba(0, 0, 0, 0.1);
+}
+
+.win-message {
+	font-size: 2em;
+	font-weight: bold;
+	color: rgb(40, 40, 40);
+	position: absolute;
+	top: 55px;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.timer {
+	font-family: "Ubuntu Mono";
+	font-size: 1.5em;
+	color: rgb(40, 40, 40);
+	position: absolute;
+	top: 55px;
+	left: 100%;
+	transform: translate(-180%, 40%);
+}
