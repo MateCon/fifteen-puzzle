@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useCallback, useEffect, useState } from 'react';
 import { generateRGB } from '../../helpers/colorMethods';
 import { generator } from '../../helpers/generator';
 import { Cell as CellProps } from '../../helpers/interface';
@@ -26,15 +26,17 @@ const Grid: FC<Props> = ({ size }) => {
     const { isRunning, resume, restart, stop, getTimeFormatted, minutes, seconds } = useTimer(100);
     const [clickCount, setClickCount] = useState<number>(0);
 
-    const playAgain = () => {
+    const playAgain = useCallback(() => {
         setHasEnded(false);
         setShowModal(false);
         setEmpty([-1, -1]);
         setCells(generator(size, generateRGB(), generateRGB()));
+        setClickCount(0);
         restart();
-    };
+        stop();
+    }, [setHasEnded, setShowModal, setEmpty, setCells, restart, size, setClickCount, stop]);
 
-    const handleClick = (x: number, y: number) => {
+    const handleClick = useCallback((x: number, y: number) => {
         if (hasEnded) return;
         if (!isRunning) resume();
         for (let delta of directions) {
@@ -68,7 +70,7 @@ const Grid: FC<Props> = ({ size }) => {
         setHasEnded(win);
         setShowModal(win);
         if (win) stop();
-    };
+    }, [cells, empty, hasEnded, isRunning, size, stop, clickCount, setClickCount, setHasEnded, setShowModal, resume]);
 
     useEffect(() => {
         setCellSize((window_height - 300) / size);
@@ -94,12 +96,43 @@ const Grid: FC<Props> = ({ size }) => {
         setEmpty([x, y]);
     }, [cells, size]);
 
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            switch (e.key) {
+                case 'w':
+                    handleClick(empty[0], empty[1] + 1);
+                    break;
+                case 'a':
+                    handleClick(empty[0] + 1, empty[1]);
+                    break;
+                case 's':
+                    handleClick(empty[0], empty[1] - 1);
+                    break;
+                case 'd':
+                    handleClick(empty[0] - 1, empty[1]);
+                    break;
+                case 'r':
+                    playAgain();
+                    break;
+            };
+        };
+
+        document.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [playAgain, empty, handleClick]);
+
     return <>
         <div className='grid-shadow' />
         <Modal show={showModal} hide={() => setShowModal(false)}>
             <h1>You Won!</h1>
             <hr></hr>
-            <label>You won in {minutes > 0 && `${minutes} minute${minutes > 1 ? 's' : ''} and `}{seconds} second{seconds > 1 ? 's' : ''}</label>
+            <div className='labels'>
+                <label>You won in {minutes > 0 && `${minutes} minute${minutes > 1 ? 's' : ''} and `}{seconds} second{seconds > 1 ? 's' : ''}</label>
+                <label>You clicked {clickCount} time{clickCount !== 1 ? 's' : ''}</label>
+            </div>
             <div className="button-container">
                 <button onClick={() => setShowModal(false)}>Close</button>
                 <button onClick={playAgain}>Play Again</button>

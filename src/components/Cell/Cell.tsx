@@ -37,8 +37,6 @@ const Cell: FC<Props> = ({
         delay: index * 1000 / (size * size),
     });
 
-    console.log(totalSize);
-
     return <animated.div
         className='cell'
         style={{
