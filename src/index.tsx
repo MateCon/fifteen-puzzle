@@ -1,4 +1,5 @@
 import { render } from 'react-dom';
-import App from './App';
+import Router from './Router';
+import './index.css';
 
-render(<App />, document.querySelector('#root'));
+render(<Router />, document.querySelector('#root'));
