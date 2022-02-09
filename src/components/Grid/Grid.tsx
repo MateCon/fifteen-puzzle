@@ -8,11 +8,14 @@ import Cell from "../Cell";
 import Modal from "../Modal";
 import './Grid.scss';
 
-const size = 4;
+interface Props {
+    size: number;
+};
+
 const gap = 2;
 const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
 
-const Grid: FC = () => {
+const Grid: FC<Props> = ({ size }) => {
     const { window_height } = useDimensions();
     const [cellSize, setCellSize] = useState((window_height - 300) / size);
     const [totalSize, setTotalSize] = useState<number>(0);
@@ -104,7 +107,6 @@ const Grid: FC = () => {
         </Modal>
         <div className='stats'>
             <p>{getTimeFormatted(0)}</p>
-            <h1>Fifteen Puzzle</h1>
             <p>{clickCount} clicks</p>
         </div>
         {
