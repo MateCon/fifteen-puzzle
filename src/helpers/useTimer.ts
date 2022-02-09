@@ -65,14 +65,18 @@ const useTimer = (tickRate = 1000) => {
 
   useEffect(() => {
     let prev = Date.now();
+    let interval: any = { current: null };
 
-    const interval = setInterval(() => {
+    interval.current = setInterval(() => {
       const delta = Date.now() - prev;
       if (isRunning) setTime((time) => time + delta);
       prev = Date.now();
     }, tickRate);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval.current);
+      interval.current = null;
+    };
   }, [setTime, tickRate, isRunning]);
 
   return {

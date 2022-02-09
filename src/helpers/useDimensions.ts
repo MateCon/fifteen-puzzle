@@ -10,7 +10,9 @@ const useDimensions = () => {
             setHeight(document.getElementById('root')!.clientHeight);
         }
 
-        return window.addEventListener('resize', () => updateDimensions());
+        window.addEventListener('resize', updateDimensions);
+
+        return () => window.removeEventListener('resize', updateDimensions);
     }, [setWidth, setHeight]);
 
     return { window_width, window_height };

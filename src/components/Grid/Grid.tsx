@@ -73,7 +73,7 @@ const Grid: FC<Props> = ({ size }) => {
     useEffect(() => {
         setCellSize((window_height - 300) / size);
         setTotalSize(cellSize * size + gap * (size - 1));
-    }, [window_height, setCellSize, setTotalSize, cellSize]);
+    }, [window_height, setCellSize, setTotalSize, cellSize, size]);
 
     useEffect(() => {
         let x_coordinate_count = [];
@@ -92,7 +92,7 @@ const Grid: FC<Props> = ({ size }) => {
             if (y_coordinate_count[i] !== size) y = i;
         }
         setEmpty([x, y]);
-    }, [cells]);
+    }, [cells, size]);
 
     return <>
         <div className='grid-shadow' />
@@ -116,6 +116,7 @@ const Grid: FC<Props> = ({ size }) => {
                 x={cell.x}
                 y={cell.y}
                 gap={gap}
+                size={size}
                 cellSize={cellSize}
                 totalSize={totalSize}
                 backgroundColor={`rgb(${cell.r}, ${cell.g}, ${cell.b})`}

@@ -7,6 +7,7 @@ interface Props {
     x: number;
     y: number;
     gap: number;
+    size: number;
     cellSize: number;
     totalSize: number;
     backgroundColor: string;
@@ -18,6 +19,7 @@ const Cell: FC<Props> = ({
     x,
     y,
     gap,
+    size,
     cellSize,
     totalSize,
     backgroundColor,
@@ -29,11 +31,20 @@ const Cell: FC<Props> = ({
         config: { mass: 0.75, tension: 500, friction: 20 },
     });
 
+    const enterSpring = useSpring({
+        from: { opacity: 0 },
+        to: { opacity: 1 },
+        delay: index * 1000 / (size * size),
+    });
+
+    console.log(totalSize);
+
     return <animated.div
         className='cell'
         style={{
             left: spring.x.to((x: number) => `calc(${x}px + (100vw - ${totalSize}px) / 2)`),
             top: spring.y.to((y: number) => `calc(${y}px + (100vh - ${totalSize}px) / 2)`),
+            opacity: enterSpring.opacity,
             backgroundColor,
             width: cellSize,
             height: cellSize,
