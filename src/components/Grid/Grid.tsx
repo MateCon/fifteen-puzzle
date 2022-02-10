@@ -5,7 +5,8 @@ import useDimensions from '../../helpers/useDimensions';
 import useTimer from '../../helpers/useTimer';
 import { actions } from '../../Store';
 import Cell from "../Cell";
-import Modal from "../Modal";
+import EndModal from './EndModal';
+import Stats from './Stats';
 import './Grid.scss';
 
 interface Props {
@@ -106,25 +107,8 @@ const Grid: FC<Props> = ({ size }) => {
 
     return <>
         <div className='grid-shadow' />
-        <Modal show={showModal} hide={() => setShowModal(false)}>
-            <h1>You Won!</h1>
-            <hr></hr>
-            <div className='labels'>
-                <label>You won in {minutes > 0 && `${minutes} minute${minutes > 1 ? 's' : ''} and `}{seconds} second{seconds > 1 ? 's' : ''}</label>
-                <label>You clicked {game?.clickCount} time{game?.clickCount !== 1 ? 's' : ''}</label>
-            </div>
-            <div className="button-container">
-                <button className='close' onClick={() => setShowModal(false)}>Close</button>
-                <button className='play-again' onClick={() => {
-                    createGame();
-                    setShowModal(false);
-                }}>Play Again</button>
-            </div>
-        </Modal>
-        <div className='stats'>
-            <p>{getTimeFormatted(0)}</p>
-            <p>{game?.clickCount} clicks</p>
-        </div>
+        <EndModal {...{ showModal, game, minutes, seconds, createGame, setShowModal }} />
+        <Stats {...{ getTimeFormatted, game }} />
         {game && game.cells.map(cell => <Cell
             key={cell.index}
             index={cell.index}
