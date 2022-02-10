@@ -34,3 +34,43 @@
 		width: 105px;
 	}
 }
+
+.close {
+	z-index: 2;
+
+	&::before {
+		content: "Close";
+		color: rgba(0, 0, 0, 0);
+		background-color: rgb(255, 0, 0);
+		position: absolute;
+		padding: 5px 10px;
+		border-radius: 4px;
+		z-index: -1;
+		transform: translateX(calc(-50% - 5px)) translateY(-5px) scale(0);
+		transition: all 0.2s ease-in-out;
+	}
+
+	&:hover::before {
+		transform: translateX(-10px) translateY(-5px) scale(1);
+	}
+}
+
+.play-again {
+	z-index: 2;
+
+	&::before {
+		content: "Play Again";
+		color: rgba(0, 0, 0, 0);
+		background-color: rgba(0, 255, 0, 0.8);
+		position: absolute;
+		padding: 5px 10px;
+		border-radius: 4px;
+		z-index: -1;
+		transform: translateX(calc(50% + 5px)) translateY(-5px) scale(0);
+		transition: all 0.2s ease-in-out;
+	}
+
+	&:hover::before {
+		transform: translateX(-10px) translateY(-5px) scale(1);
+	}
+}

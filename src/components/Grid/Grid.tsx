@@ -113,8 +113,11 @@ const Grid: FC<Props> = ({ size }) => {
                 <label>You clicked {game?.clickCount} time{game?.clickCount !== 1 ? 's' : ''}</label>
             </div>
             <div className="button-container">
-                <button onClick={() => setShowModal(false)}>Close</button>
-                <button onClick={createGame}>Play Again</button>
+                <button className='close' onClick={() => setShowModal(false)}>Close</button>
+                <button className='play-again' onClick={() => {
+                    createGame();
+                    setShowModal(false);
+                }}>Play Again</button>
             </div>
         </Modal>
         <div className='stats'>
