@@ -1,4 +1,4 @@
-.home {
+.stats-menu {
 	margin: 60px auto 0 auto;
 	max-width: 600px;
 
@@ -15,40 +15,47 @@
 		}
 	}
 
-	:nth-child(2) > button,
 	:nth-child(3) > button,
-	:nth-child(5) > button,
-	:nth-child(6) > button {
+	:nth-child(4) > button,
+	:nth-child(6) > button,
+	:nth-child(7) > button {
 		margin-right: 20px;
 	}
 
 	:nth-child(1) > button {
-		background-color: #1abc9c;
-		width: 100%;
+		background-color: #563ad3;
+		width: calc(50% - 10px);
 		height: 180px;
+		margin-right: 20px;
 	}
 
 	:nth-child(2) > button {
-		background-color: #3498db;
+		background-color: #1abc9c;
+		width: calc(50% - 10px);
+		height: 180px;
 	}
 
 	:nth-child(3) > button {
-		background-color: #9b59b6;
+		background-color: #3498db;
 	}
 
 	:nth-child(4) > button {
-		background-color: #f1c40f;
+		background-color: #9b59b6;
 	}
 
 	:nth-child(5) > button {
-		background-color: #e67e22;
+		background-color: #f1c40f;
 	}
 
 	:nth-child(6) > button {
-		background-color: #e74c3c;
+		background-color: #e67e22;
 	}
 
 	:nth-child(7) > button {
+		background-color: #e74c3c;
+	}
+
+	:nth-child(8) > button {
 		background-color: rgb(207, 67, 184);
 	}
 }

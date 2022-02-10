@@ -38,5 +38,14 @@ export interface Action {
 export interface Store {
     games: {
         [key: number|string]: Game | undefined;
+    },
+    stats: {
+        [key: number|string]: {
+            completedGames: number;
+            totalClicks: number;
+            totalTime: number;
+            bestTime: number;
+            leastClicks: number;
+        }
     }
 };

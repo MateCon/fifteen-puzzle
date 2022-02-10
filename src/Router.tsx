@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Game from './pages/Game';
 import Error from './pages/Error';
+import Stats from './pages/Stats';
 import Navbar from './components/Navbar';
 
 const Router: FC = () => (
@@ -10,6 +11,9 @@ const Router: FC = () => (
         <Navbar />
         <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="stats" element={<Stats />}>
+                <Route path=":size" element={<Stats />} />
+            </Route>
             <Route path="/game" element={<Game />}>
                 <Route path=":size" element={<Game />} />
             </Route>

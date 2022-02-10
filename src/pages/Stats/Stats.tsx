@@ -1,19 +1,20 @@
 import { FC } from 'react';
-import { useSpring, animated } from 'react-spring';
+import { animated, useSpring } from 'react-spring';
 import GamemodeButton from '../../components/GamemodeButton';
-import './Home.scss';
+import './Stats.scss';
 
 const options = [
+    { value: 'Total', label: 'Total' },
     { value: 'Daily', label: 'Daily' },
     { value: 4, label: '4x4' },
     { value: 5, label: '5x5' },
     { value: 6, label: '6x6' },
     { value: 7, label: '7x7' },
     { value: 8, label: '8x8' },
-    { value: 9, label: '9x9' }
+    { value: 9, label: '9x9' },
 ];
 
-const Home: FC = () => {
+const Stats: FC = () => {
     const props = useSpring({
         left: 50,
         opacity: 1,
@@ -31,11 +32,11 @@ const Home: FC = () => {
                 left: props.left.to(x => x + '%'),
                 opacity: props.opacity
             }}>Pick a game mode</animated.p>
-            <div className='home'>
+            <div className='stats-menu'>
                 {options.map(({ value, label }, index) =>
                     <GamemodeButton
                         key={index}
-                        to={`/game/${value}`}
+                        to={`/stats/${value}`}
                         {...{ value, index }}
                     >
                         {label}
@@ -45,4 +46,4 @@ const Home: FC = () => {
     )
 }
 
-export default Home;
+export default Stats;

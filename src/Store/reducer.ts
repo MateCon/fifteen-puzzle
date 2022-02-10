@@ -1,16 +1,6 @@
 import type { Store, Action, Game } from '../helpers/interface';
 import { createGame, clickCell } from './helpers';
-
-const initialState = {
-    games: {
-        4: undefined,
-        5: undefined,
-        6: undefined,
-        7: undefined,
-        8: undefined,
-        9: undefined
-    },
-};
+import initialState from './reducerInitialState';
 
 export default function reducer(
     state: Store = initialState,
