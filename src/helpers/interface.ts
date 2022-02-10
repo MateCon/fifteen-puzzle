@@ -1,3 +1,5 @@
+/* Game */
+
 export interface Color {
     r: number;
     g: number;
@@ -11,3 +13,30 @@ export interface Cell extends Color {
     expectedY: number;
     index: number;
 }
+
+export interface Game {
+    cells: Cell[];
+    empty: [number, number];
+    size: number;
+    time: {
+        hours: number;
+        minutes: number;
+        seconds: number;
+    };
+    clickCount: number;
+    isGameStarted: boolean;
+    isGameOver: boolean;
+}
+
+/* Redux */
+
+export interface Action {
+    type: string;
+    payload: any;
+};
+
+export interface Store {
+    games: {
+        [key: number|string]: Game | undefined;
+    }
+};

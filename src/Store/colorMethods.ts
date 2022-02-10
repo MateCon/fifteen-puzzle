@@ -1,4 +1,4 @@
-import { Color } from "./interface";
+import { Color } from "../helpers/interface";
 
 const gererateNumber = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;

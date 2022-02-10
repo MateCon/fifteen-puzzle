@@ -37,6 +37,10 @@ const useTimer = (tickRate = 1000) => {
     };
   };
 
+  const addTime = useCallback((time: number) => {
+    setTime(prevTime => prevTime + time);
+  }, []);
+
   const getTimeFormatted = (precision: number): string => {
     const format = (n: number, digits: number) => {
       let str = String(n);
@@ -60,8 +64,8 @@ const useTimer = (tickRate = 1000) => {
   };
 
   const resume = useCallback(() => setIsRunning(true), [setIsRunning]);
-  const stop = () => setIsRunning(false);
-  const restart = () => setTime(0);
+  const stop = useCallback(() => setIsRunning(false), [setIsRunning]);
+  const restart = useCallback(() => setTime(0), [setTime]);
 
   useEffect(() => {
     let prev = Date.now();
@@ -81,6 +85,7 @@ const useTimer = (tickRate = 1000) => {
 
   return {
     ...getTime(),
+    addTime,
     getTimeFormatted,
     isRunning,
     resume,
