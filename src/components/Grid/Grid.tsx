@@ -37,7 +37,8 @@ const Grid: FC<Props> = ({ size }) => {
 
     const createGame = useCallback((): void => {
         dispatch(actions.createGame(size));
-    }, [dispatch, size]);
+        restart();
+    }, [dispatch, size, restart]);
 
     // create game on mount if it was undefined
     useEffect(() => {
