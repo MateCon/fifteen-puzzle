@@ -1,4 +1,4 @@
-import type { Store, Action, Game, Stats } from '../helpers/interface';
+import type { Store, Action, Game } from '../helpers/interface';
 import { createGame, clickCell, addToStats } from './helpers';
 import initialState from './reducerInitialState';
 

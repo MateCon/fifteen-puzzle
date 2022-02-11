@@ -1,0 +1,64 @@
+.stats-container {
+	margin: 60px auto 0 auto;
+	max-width: 600px;
+
+	> div {
+		display: inline-flex;
+		flex-direction: column;
+		justify-content: center;
+		gap: 10px;
+		width: calc(1 / 3 * 100% - 13.99px);
+		height: 120px;
+		border: 0;
+		font-size: 1.25rem;
+		border-radius: 2px;
+		transition: all 0.1s ease;
+		margin-bottom: 20px;
+		text-align: center;
+		user-select: none;
+
+		p {
+			margin: 0;
+		}
+
+		&:hover {
+			filter: brightness(0.9);
+		}
+
+		&:nth-child(1),
+		&:nth-child(2),
+		&:nth-child(4),
+		&:nth-child(5) {
+			margin-right: 20px;
+		}
+
+		&:nth-child(1) {
+			background-color: #3ad359;
+		}
+
+		&:nth-child(2) {
+			background-color: #1ab1bc;
+		}
+
+		&:nth-child(3) {
+			background-color: #db34d5;
+		}
+
+		&:nth-child(4) {
+			background-color: #e63f3f;
+		}
+
+		&:nth-child(5) {
+			background-color: #f1970f;
+		}
+
+		&:nth-child(6) {
+			background-color: #e6df22;
+		}
+
+		&:nth-child(7) {
+			background-color: #a5e73c;
+			margin-left: calc(1 / 3 * 100% - 13.99px + 20px);
+		}
+	}
+}
