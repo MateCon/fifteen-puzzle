@@ -48,7 +48,7 @@ const Cell: FC<Props> = ({
             height: cellSize,
             fontSize: cellSize / 2.5
         }}
-        onClick={handleClick}
+        onMouseDown={handleClick}
     >{index}</animated.div>
 };
 

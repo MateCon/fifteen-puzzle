@@ -5,7 +5,7 @@ const gererateNumber = (min: number, max: number) => {
 };
 
 export const generateRGB = (): Color => ({
-    r: gererateNumber(0, 255),
-    g: gererateNumber(0, 255),
-    b: gererateNumber(0, 255)
+    r: gererateNumber(20, 220),
+    g: gererateNumber(20, 220),
+    b: gererateNumber(20, 220)
 });

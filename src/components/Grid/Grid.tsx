@@ -92,6 +92,7 @@ const Grid: FC<Props> = ({ size }) => {
                 case 'r':
                     if (e.metaKey) return;
                     dispatch(actions.createGame(size));
+                    setShowModal(false);
                     restart();
                     stop();
                     break;
@@ -103,7 +104,7 @@ const Grid: FC<Props> = ({ size }) => {
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
-    }, [handleClick, game, dispatch, restart, stop]);
+    }, [handleClick, game, dispatch, restart, stop, setShowModal]);
 
     return <>
         <div className='grid-shadow' />

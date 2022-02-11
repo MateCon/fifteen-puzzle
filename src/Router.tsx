@@ -3,16 +3,18 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Game from './pages/Game';
 import Error from './pages/Error';
-import Stats from './pages/Stats';
+import StatsHome from './pages/StatsHome';
 import Navbar from './components/Navbar';
+import Stats from './pages/Stats';
 
 const Router: FC = () => (
     <BrowserRouter>
         <Navbar />
         <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="stats" element={<Stats />}>
-                <Route path=":size" element={<Stats />} />
+            <Route path="/stats">
+                <Route path=":mode" element={<Stats />} />
+                <Route index element={<StatsHome />} />
             </Route>
             <Route path="/game" element={<Game />}>
                 <Route path=":size" element={<Game />} />
