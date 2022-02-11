@@ -35,17 +35,19 @@ export interface Action {
     payload: any;
 };
 
+export interface Stats {
+    completedGames: number;
+    totalClicks: number;
+    totalTime: number;
+    bestTime: number;
+    leastClicks: number;
+}
+
 export interface Store {
     games: {
         [key: number|string]: Game | undefined;
     },
     stats: {
-        [key: number|string]: {
-            completedGames: number;
-            totalClicks: number;
-            totalTime: number;
-            bestTime: number;
-            leastClicks: number;
-        }
+        [key: number|string]: Stats | undefined;
     }
 };

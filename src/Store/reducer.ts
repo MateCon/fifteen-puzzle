@@ -1,5 +1,5 @@
-import type { Store, Action, Game } from '../helpers/interface';
-import { createGame, clickCell } from './helpers';
+import type { Store, Action, Game, Stats } from '../helpers/interface';
+import { createGame, clickCell, addToStats } from './helpers';
 import initialState from './reducerInitialState';
 
 export default function reducer(
@@ -52,6 +52,11 @@ export default function reducer(
                 games: {
                     ...state.games,
                     [action.payload.size]: game
+                },
+                stats: {
+                    ...state.stats,
+                    [action.payload.size]: addToStats(game, state.stats[action.payload.size]!),
+                    Total: addToStats(game, state.stats.total)
                 }
             };
         default:

@@ -1,4 +1,4 @@
-import { Cell, Game } from "../helpers/interface";
+import { Cell, Game, Stats } from "../helpers/interface";
 import { generateRGB } from "./colorMethods";
 
 // https://stackoverflow.com/questions/34570344/check-if-15-puzzle-is-solvable
@@ -132,4 +132,29 @@ export const clickCell = (
         return { cells: state.cells, empty: [prev_x, prev_y], clickCount: state.clickCount + 1 };
     }
     return {};
+};
+
+export const addToStats = (
+    state: Game,
+    stats: Stats | undefined
+): Stats => {
+    console.log(state.time, state.time.hours * 3600 + state.time.minutes * 60 + state.time.seconds);
+    if(!stats) stats = {
+        completedGames: 0,
+        totalTime: 0,
+        totalClicks: 0,
+        bestTime: 0,
+        leastClicks: 0
+    };
+    console.log(stats.totalTime);
+    let time = state.time.hours * 3600 + state.time.minutes * 60 + state.time.seconds;
+    stats.completedGames++;
+    stats.totalClicks += state.clickCount;
+    stats.totalTime += time;
+    if (stats.bestTime === 0) stats.bestTime = time;
+    else stats.bestTime = Math.min(stats.bestTime, time);
+    if (stats.leastClicks === 0) stats.leastClicks = state.clickCount;
+    else stats.leastClicks = Math.min(stats.leastClicks, state.clickCount);
+    console.log(stats.totalTime);
+    return stats;
 };
