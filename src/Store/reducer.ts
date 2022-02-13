@@ -16,6 +16,17 @@ export default function reducer(
                     [action.payload.size]: createGame(action.payload.size)
                 }
             };
+        case "CREATE_DAILY_GAME":
+            return {
+                ...state,
+                games: {
+                    ...state.games,
+                    Daily: {
+                        ...action.payload.game,
+                        day: new Date().getDate()
+                    }
+                }
+            };
         case "CLICK_CELL":
             game = state.games[action.payload.size];
             if(!game) return state;
@@ -56,7 +67,7 @@ export default function reducer(
                 stats: {
                     ...state.stats,
                     [action.payload.size]: addToStats(game, state.stats[action.payload.size]!),
-                    Total: addToStats(game, state.stats.total)
+                    Total: addToStats(game, state.stats.Total)
                 }
             };
         default:

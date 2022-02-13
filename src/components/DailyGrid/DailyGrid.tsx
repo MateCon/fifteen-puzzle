@@ -1,54 +1,57 @@
-import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import type { Game, Store } from '../../helpers/interface';
+import type { DailyGame, Store } from '../../helpers/interface';
 import useDimensions from '../../helpers/useDimensions';
 import useTimer from '../../helpers/useTimer';
-import { actions } from '../../Store';
-import Cell from "../Cell";
+import { actions } from '../../Store/Store';
+import Cell from "../Cell/Cell";
 import EndModal from './EndModal';
 import Stats from './Stats';
+import axios from 'axios';
 import './Grid.scss';
 
-interface Props {
-    mode: number | 'Daily';
-};
-
 const gap = 2;
+const size = 4;
 
-const Grid: FC<Props> = ({ mode }) => {
-    const size = useMemo(() => mode === 'Daily' ? 4 : mode, [mode]);
+const DailyGrid: FC = () => {
     const { window_height } = useDimensions();
     const [cellSize, setCellSize] = useState((window_height - 300) / size);
     const [totalSize, setTotalSize] = useState<number>(0);
     const [showModal, setShowModal] = useState<boolean>(false);
-    const game: Game | undefined = useSelector((state: Store): Game | undefined => state.games[mode]);
+    const game: DailyGame | undefined = useSelector((state: Store): DailyGame | undefined => state.games.Daily);
     const dispatch = useDispatch();
     const { isRunning, resume, stop, restart, hours, minutes, seconds, getTimeFormatted, addTime } = useTimer(250);
     const isFirstFrame = useRef(true);
 
     const handleClick = useCallback((x: number, y: number): void => {
         if (game!.isGameOver) return;
-        dispatch(actions.clickCell(mode, x, y));
+        dispatch(actions.clickCell('Daily', x, y));
         if (!isRunning) resume();
         if (game!.cells.every(cell => cell.x === cell.expectedX && cell.y === cell.expectedY)) {
-            dispatch(actions.endGame(mode));
+            dispatch(actions.endGame('Daily'));
             setShowModal(true);
             stop();
         }
-    }, [dispatch, isRunning, resume, mode, stop, game]);
+    }, [dispatch, isRunning, resume, stop, game]);
 
     const createGame = useCallback(() => {
-        dispatch(actions.createGame(mode));
+        axios
+            .get('http://localhost:8080/Daily')
+            .then(res => {
+                const data = res.data;
+                dispatch(actions.createDailyGame(data));
+            });
         restart();
-    }, [dispatch, restart, mode]);
+    }, [dispatch, restart]);
 
-    // create game on mount if it was undefined
+    // create game on mount
+    // if it was undefined or the day has changed
     useEffect(() => {
         if (isFirstFrame.current)
             isFirstFrame.current = false;
         else
             return;
-        if (!game || game.isGameOver) {
+        if (!game || game.day !== new Date().getDate()) {
             createGame();
             return;
         }
@@ -56,8 +59,10 @@ const Grid: FC<Props> = ({ mode }) => {
             stop();
             return;
         }
-        if (!game.isGameOver) {
+        if (game.isGameStarted) {
             addTime((game.time.hours * 3600 + game.time.minutes * 60 + game.time.seconds) * 1000);
+        }
+        if (!game.isGameOver) {
             resume();
         }
     }, [game, createGame, resume, addTime, stop, isFirstFrame]);
@@ -66,12 +71,12 @@ const Grid: FC<Props> = ({ mode }) => {
     useEffect(() => {
         setCellSize((window_height - 300) / size);
         setTotalSize(cellSize * size + gap * (size - 1));
-    }, [window_height, setCellSize, setTotalSize, cellSize, size]);
+    }, [window_height, setCellSize, setTotalSize, cellSize]);
 
     // update redux's timer every second
     useEffect(() => {
-        dispatch(actions.setTimer(mode, { hours, minutes, seconds, }));
-    }, [dispatch, mode, hours, minutes, seconds]);
+        dispatch(actions.setTimer('Daily', { hours, minutes, seconds, }));
+    }, [dispatch, hours, minutes, seconds]);
 
     // add key down listener
     useEffect(() => {
@@ -90,12 +95,6 @@ const Grid: FC<Props> = ({ mode }) => {
                 case 'd':
                     handleClick(empty[0] - 1, empty[1]);
                     break;
-                case 'r':
-                    if (e.metaKey) return;
-                    createGame();
-                    setShowModal(false);
-                    stop();
-                    break;
             };
         };
 
@@ -104,7 +103,7 @@ const Grid: FC<Props> = ({ mode }) => {
         return () => {
             document.removeEventListener('keydown', handleKeyDown);
         };
-    }, [handleClick, game, dispatch, restart, stop, setShowModal, createGame, mode]);
+    }, [handleClick, game, dispatch, restart, stop, setShowModal, createGame]);
 
     return <>
         <div className='grid-shadow' />
@@ -122,4 +121,4 @@ const Grid: FC<Props> = ({ mode }) => {
     </>
 }
 
-export default Grid;
+export default DailyGrid;

@@ -17,7 +17,7 @@ const Router: FC = () => (
                 <Route index element={<StatsHome />} />
             </Route>
             <Route path="/game" element={<Game />}>
-                <Route path=":size" element={<Game />} />
+                <Route path=":mode" element={<Game />} />
             </Route>
             <Route path="*" element={<Error>404 - page not found</Error>} />
         </Routes>

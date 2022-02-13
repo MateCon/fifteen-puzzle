@@ -65,10 +65,10 @@ const Stats: FC = () => {
     return <div className="stats-container">
         <Stat index="0"><p>games played</p><p>{completedGames}</p></Stat>
         <Stat index="1"><p>playtime</p><p>{secondsToTime(totalTime)}</p></Stat>
-        <Stat index="2"><p>click count</p><p>{totalClicks}</p></Stat>
-        <Stat index="3"><p>avarage time</p><p>{secondsToTime(getAvarage(completedGames, totalTime))}</p></Stat>
-        <Stat index="4"><p>avarage clicks</p><p>{getAvarage(completedGames, totalClicks)}</p></Stat>
-        <Stat index="5"><p>best Time</p><p>{bestTime}</p></Stat>
+        <Stat index="2"><p>avarage time</p><p>{secondsToTime(getAvarage(completedGames, totalTime))}</p></Stat>
+        <Stat index="3"><p>best Time</p><p>{secondsToTime(bestTime)}</p></Stat>
+        <Stat index="4"><p>click count</p><p>{totalClicks}</p></Stat>
+        <Stat index="5"><p>avarage clicks</p><p>{getAvarage(completedGames, totalClicks)}</p></Stat>
         <Stat index="6"><p>least clicks</p><p>{leastClicks}</p></Stat>
     </div>;
 }

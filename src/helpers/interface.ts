@@ -28,6 +28,10 @@ export interface Game {
     isGameOver: boolean;
 }
 
+export interface DailyGame extends Game {
+    day: number;
+}
+
 /* Redux */
 
 export interface Action {
@@ -45,6 +49,7 @@ export interface Stats {
 
 export interface Store {
     games: {
+        Daily: DailyGame | undefined;
         [key: number|string]: Game | undefined;
     },
     stats: {

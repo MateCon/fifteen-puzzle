@@ -1,17 +1,22 @@
-import type { Action } from '../helpers/interface';
+import type { Action, Game } from '../helpers/interface';
 
-export const createGame = (size: number): Action => ({
+export const createGame = (size: number|string): Action => ({
     type: "CREATE_GAME",
     payload: { size }
 });
 
-export const clickCell = (size: number, x: number, y: number): Action => ({
+export const createDailyGame = (game: Game): Action => ({
+    type: "CREATE_DAILY_GAME",
+    payload: { game }
+});
+
+export const clickCell = (size: number|string, x: number, y: number): Action => ({
     type: "CLICK_CELL",
     payload: { size, x, y }
 });
 
 export const setTimer = (
-    size: number,
+    size: number|string,
     time: {
         hours: number,
         minutes: number,
@@ -22,7 +27,7 @@ export const setTimer = (
     payload: { size, time }
 });
 
-export const endGame = (size: number): Action => ({
+export const endGame = (size: number|string): Action => ({
     type: "END_GAME",
     payload: { size }
 });

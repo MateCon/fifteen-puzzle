@@ -1,0 +1,77 @@
+@import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:regular,italic,700,700italic);
+
+.grid-shadow {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	box-shadow: 0 0 300px 200px rgba(0, 0, 0, 0.1);
+}
+
+.stats {
+	width: 90%;
+	max-width: 480px;
+	font-family: "Ubuntu Mono";
+	font-size: 1.2em;
+	color: rgb(15, 15, 15);
+	font-weight: 300;
+	position: absolute;
+	top: 80px;
+	left: 50%;
+	transform: translate(-50%, 0);
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	user-select: none;
+
+	h1 {
+		font-size: 1.5em;
+		font-weight: 600;
+		color: rgb(15, 15, 15);
+		margin: 14px;
+	}
+
+	:first-child {
+		width: 105px;
+	}
+}
+
+.close {
+	z-index: 2;
+
+	&::before {
+		content: "Close";
+		color: rgba(0, 0, 0, 0);
+		background-color: rgb(255, 0, 0);
+		position: absolute;
+		padding: 5px 10px;
+		border-radius: 4px;
+		z-index: -1;
+		transform: translateX(calc(-50% - 5px)) translateY(-5px) scale(0);
+		transition: all 0.2s ease-in-out;
+	}
+
+	&:hover::before {
+		transform: translateX(-10px) translateY(-5px) scale(1);
+	}
+}
+
+.exit {
+	z-index: 2;
+
+	&::before {
+		content: "Exit";
+		color: rgba(0, 0, 0, 0);
+		background-color: rgba(0, 255, 0, 0.8);
+		position: absolute;
+		padding: 5px 10px;
+		border-radius: 4px;
+		z-index: -1;
+		transform: translateX(calc(50% - 5px)) translateY(-5px) scale(0);
+		transition: all 0.2s ease-in-out;
+	}
+
+	&:hover::before {
+		transform: translateX(-10px) translateY(-5px) scale(1);
+	}
+}
