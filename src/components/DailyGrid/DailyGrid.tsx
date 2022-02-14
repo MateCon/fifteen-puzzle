@@ -8,8 +8,10 @@ import Cell from "../Cell/Cell";
 import EndModal from './EndModal';
 import Stats from './Stats';
 import axios from 'axios';
+import apiKey from './api';
 import './Grid.scss';
 
+const url = `${apiKey}/daily`;
 const gap = 2;
 const size = 4;
 
@@ -34,7 +36,7 @@ const DailyGrid: FC = () => {
             stop();
             axios({
                 method: 'post',
-                url: 'http://localhost:8080/daily',
+                url,
                 params: {
                     clickCount: game!.clickCount,
                     time: game!.time.hours * 3600 + game!.time.minutes * 60 + game!.time.seconds
@@ -47,7 +49,7 @@ const DailyGrid: FC = () => {
 
     const createGame = useCallback(() => {
         axios
-            .get('http://localhost:8080/daily')
+            .get(url)
             .then(res => {
                 const data = res.data;
                 dispatch(actions.createDailyGame(data));
