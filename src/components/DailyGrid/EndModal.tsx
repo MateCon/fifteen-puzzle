@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
-import { Game } from '../../helpers/interface';
+import { Game, Result } from '../../helpers/interface';
 import Modal from '../Modal/Modal';
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
     game: Game | undefined;
     minutes: number;
     seconds: number;
-    createGame: () => void;
+    result: Result;
     setShowModal: (showModal: boolean) => void;
 }
 
@@ -17,6 +17,7 @@ const EndModal: FC<Props> = ({
     game,
     minutes,
     seconds,
+    result,
     setShowModal
 }) => {
     return (
@@ -24,6 +25,12 @@ const EndModal: FC<Props> = ({
             <h1>You Won!</h1>
             <hr></hr>
             <div className='labels'>
+                <label>
+                    <span style={{
+                        fontSize: 28
+                    }}>#{result.position}</span>
+                    {' '}out of {result.total}
+                </label>
                 <label>You won in {minutes > 0 && `${minutes} minute${minutes > 1 ? 's' : ''} and `}{seconds} second{seconds > 1 ? 's' : ''}</label>
                 <label>You clicked {game?.clickCount} time{game?.clickCount !== 1 ? 's' : ''}</label>
             </div>

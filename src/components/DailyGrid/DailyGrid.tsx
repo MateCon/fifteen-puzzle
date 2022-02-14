@@ -1,6 +1,6 @@
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import type { DailyGame, Store } from '../../helpers/interface';
+import type { DailyGame, Store, Result } from '../../helpers/interface';
 import useDimensions from '../../helpers/useDimensions';
 import useTimer from '../../helpers/useTimer';
 import { actions } from '../../Store/Store';
@@ -22,6 +22,7 @@ const DailyGrid: FC = () => {
     const dispatch = useDispatch();
     const { isRunning, resume, stop, restart, hours, minutes, seconds, getTimeFormatted, addTime } = useTimer(250);
     const isFirstFrame = useRef(true);
+    const [result, setResult] = useState<Result>({ position: 0, total: 0 });
 
     const handleClick = useCallback((x: number, y: number): void => {
         if (game!.isGameOver) return;
@@ -31,12 +32,22 @@ const DailyGrid: FC = () => {
             dispatch(actions.endGame('Daily'));
             setShowModal(true);
             stop();
+            axios({
+                method: 'post',
+                url: 'http://localhost:8080/daily',
+                params: {
+                    clickCount: game!.clickCount,
+                    time: game!.time.hours * 3600 + game!.time.minutes * 60 + game!.time.seconds
+                }
+            }).then(res => {
+                setResult(res.data);
+            });
         }
-    }, [dispatch, isRunning, resume, stop, game]);
+    }, [dispatch, isRunning, resume, stop, game, setResult]);
 
     const createGame = useCallback(() => {
         axios
-            .get('http://localhost:8080/Daily')
+            .get('http://localhost:8080/daily')
             .then(res => {
                 const data = res.data;
                 dispatch(actions.createDailyGame(data));
@@ -107,7 +118,7 @@ const DailyGrid: FC = () => {
 
     return <>
         <div className='grid-shadow' />
-        <EndModal {...{ showModal, game, minutes, seconds, createGame, setShowModal }} />
+        <EndModal {...{ showModal, game, minutes, seconds, createGame, setShowModal, result }} />
         {game?.isGameStarted && <Stats {...{ getTimeFormatted, game }} />}
         {game && game.cells && game.cells.map(cell => <Cell
             key={cell.index}

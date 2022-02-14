@@ -32,6 +32,11 @@ export interface DailyGame extends Game {
     day: number;
 }
 
+export interface Result {
+    position: number;
+    total: number;
+};
+
 /* Redux */
 
 export interface Action {
