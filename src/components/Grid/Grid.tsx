@@ -97,8 +97,9 @@ const Grid: FC<Props> = ({ mode }) => {
 
     // on every move make a sound
     useEffect(() => {
-        if (game!.empty[0] === empty[0] && game!.empty[1] === empty[1]) return;
-        setEmpty(game!.empty);
+        if (!game) return;
+        if (game.empty[0] === empty[0] && game.empty[1] === empty[1]) return;
+        setEmpty(game.empty);
         clickPlayer.start();
     }, [game, empty, setEmpty]);
 
