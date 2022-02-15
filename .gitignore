@@ -1,7 +1,6 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-api.ts
-appConfig.ts
+*.hidden.ts
 
 # dependencies
 /node_modules
