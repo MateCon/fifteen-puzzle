@@ -31,3 +31,8 @@ export const endGame = (size: number|string): Action => ({
     type: "END_GAME",
     payload: { size }
 });
+
+export const setVolume = (value: number): Action => ({
+    type: "SET_VOLUME",
+    payload: { value }
+});

@@ -1,6 +1,6 @@
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import type { Game, Store } from '../../helpers/interface';
+import type { Game, Settings, Store } from '../../helpers/interface';
 import useDimensions from '../../helpers/useDimensions';
 import useTimer from '../../helpers/useTimer';
 import { actions } from '../../Store';
@@ -15,10 +15,6 @@ const WinSound = require("../../assets/sounds/Win.wav");
 
 const clickPlayer = new Tone.Player({ url: ClickSound });
 const winPlayer = new Tone.Player({ url: WinSound });
-const clickChannel = new Tone.Channel(-6).toDestination();
-const winChannel = new Tone.Channel(-3).toDestination();
-clickPlayer.connect(clickChannel);
-winPlayer.connect(winChannel);
 
 interface Props {
     mode: number | 'Daily';
@@ -33,10 +29,11 @@ const Grid: FC<Props> = ({ mode }) => {
     const [totalSize, setTotalSize] = useState<number>(0);
     const [showModal, setShowModal] = useState<boolean>(false);
     const game: Game | undefined = useSelector((state: Store): Game | undefined => state.games[mode]);
+    const settings: Settings = useSelector((state: Store) => state.settings);
     const dispatch = useDispatch();
     const { isRunning, resume, stop, restart, hours, minutes, seconds, getTimeFormatted, addTime } = useTimer(250);
     const isFirstFrame = useRef(true);
-    const [empty, setEmpty] = useState<[number, number]>([game!.empty[0], game!.empty[1]]);
+    const [empty, setEmpty] = useState<[number, number]>(game && game.empty ? [game!.empty[0], game!.empty[1]] : [-1, -1]);
 
     const handleClick = useCallback((x: number, y: number): void => {
         if (game!.isGameOver) return;
@@ -54,6 +51,17 @@ const Grid: FC<Props> = ({ mode }) => {
         dispatch(actions.createGame(mode));
         restart();
     }, [dispatch, restart, mode]);
+
+    useEffect(() => {
+        clickPlayer.disconnect();
+        winPlayer.disconnect();
+        if (settings.audio.volume === 0) return;
+        const volume = (settings.audio.volume - 100) * 0.25;
+        const clickChannel = new Tone.Channel(volume).toDestination();
+        const winChannel = new Tone.Channel(volume / 2).toDestination();
+        clickPlayer.connect(clickChannel);
+        winPlayer.connect(winChannel);
+    }, [settings]);
 
     // create game on mount if it was undefined
     useEffect(() => {

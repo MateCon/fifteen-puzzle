@@ -10,7 +10,12 @@ const initialState: Store = {
         9: undefined,
         "Daily": undefined
     },
-    stats: { }
+    stats: { },
+    settings: {
+        audio: {
+            volume: 50
+        }
+    }
 };
 
 export default initialState;

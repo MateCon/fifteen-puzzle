@@ -52,6 +52,12 @@ export interface Stats {
     leastClicks: number;
 }
 
+export interface Settings {
+    audio: {
+        volume: number;
+    }
+}
+
 export interface Store {
     games: {
         Daily: DailyGame | undefined;
@@ -59,5 +65,6 @@ export interface Store {
     },
     stats: {
         [key: number|string]: Stats | undefined;
-    }
+    },
+    settings: Settings;
 };

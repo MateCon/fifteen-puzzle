@@ -70,6 +70,17 @@ export default function reducer(
                     Total: addToStats(game, state.stats.Total)
                 }
             };
+        case "SET_VOLUME":
+            return {
+                ...state,
+                settings: {
+                    ...state.settings,
+                    audio: {
+                        ...state.settings.audio,
+                        volume: action.payload.value
+                    }
+                }
+            }
         default:
             return state;
     };
