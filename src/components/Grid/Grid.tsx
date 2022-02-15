@@ -7,7 +7,18 @@ import { actions } from '../../Store';
 import Cell from "../Cell";
 import EndModal from './EndModal';
 import Stats from './Stats';
+import * as Tone from 'tone';
 import './Grid.scss';
+
+const ClickSound = require("../../assets/sounds/Click.wav");
+const WinSound = require("../../assets/sounds/Win.wav");
+
+const clickPlayer = new Tone.Player({ url: ClickSound });
+const winPlayer = new Tone.Player({ url: WinSound });
+const clickChannel = new Tone.Channel(-6).toDestination();
+const winChannel = new Tone.Channel(-3).toDestination();
+clickPlayer.connect(clickChannel);
+winPlayer.connect(winChannel);
 
 interface Props {
     mode: number | 'Daily';
@@ -25,6 +36,7 @@ const Grid: FC<Props> = ({ mode }) => {
     const dispatch = useDispatch();
     const { isRunning, resume, stop, restart, hours, minutes, seconds, getTimeFormatted, addTime } = useTimer(250);
     const isFirstFrame = useRef(true);
+    const [empty, setEmpty] = useState<[number, number]>([game!.empty[0], game!.empty[1]]);
 
     const handleClick = useCallback((x: number, y: number): void => {
         if (game!.isGameOver) return;
@@ -32,6 +44,7 @@ const Grid: FC<Props> = ({ mode }) => {
         if (!isRunning) resume();
         if (game!.cells.every(cell => cell.x === cell.expectedX && cell.y === cell.expectedY)) {
             dispatch(actions.endGame(mode));
+            winPlayer.start();
             setShowModal(true);
             stop();
         }
@@ -72,6 +85,13 @@ const Grid: FC<Props> = ({ mode }) => {
     useEffect(() => {
         dispatch(actions.setTimer(mode, { hours, minutes, seconds, }));
     }, [dispatch, mode, hours, minutes, seconds]);
+
+    // on every move make a sound
+    useEffect(() => {
+        if (game!.empty[0] === empty[0] && game!.empty[1] === empty[1]) return;
+        setEmpty(game!.empty);
+        clickPlayer.start();
+    }, [game, empty, setEmpty]);
 
     // add key down listener
     useEffect(() => {
