@@ -7,14 +7,14 @@ import { actions } from '../../Store';
 import Cell from "../Cell";
 import EndModal from './EndModal';
 import Stats from './Stats';
-import * as Tone from 'tone';
+import { Player, Channel } from 'tone';
 import './Grid.scss';
 
 const ClickSound = require("../../assets/sounds/Click.wav");
 const WinSound = require("../../assets/sounds/Win.wav");
 
-const clickPlayer = new Tone.Player({ url: ClickSound });
-const winPlayer = new Tone.Player({ url: WinSound });
+const clickPlayer = new Player({ url: ClickSound });
+const winPlayer = new Player({ url: WinSound });
 
 interface Props {
     mode: number | 'Daily';
@@ -52,13 +52,14 @@ const Grid: FC<Props> = ({ mode }) => {
         restart();
     }, [dispatch, restart, mode]);
 
+    // handle volume
     useEffect(() => {
         clickPlayer.disconnect();
         winPlayer.disconnect();
         if (settings.audio.volume === 0) return;
         const volume = (settings.audio.volume - 100) * 0.25;
-        const clickChannel = new Tone.Channel(volume).toDestination();
-        const winChannel = new Tone.Channel(volume / 2).toDestination();
+        const clickChannel = new Channel(volume).toDestination();
+        const winChannel = new Channel(volume / 2).toDestination();
         clickPlayer.connect(clickChannel);
         winPlayer.connect(winChannel);
     }, [settings]);

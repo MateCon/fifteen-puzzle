@@ -1,6 +1,6 @@
 import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import type { DailyGame, Store, Result } from '../../helpers/interface';
+import type { DailyGame, Store, Result, Settings } from '../../helpers/interface';
 import useDimensions from '../../helpers/useDimensions';
 import useTimer from '../../helpers/useTimer';
 import { actions } from '../../Store/Store';
@@ -9,7 +9,14 @@ import EndModal from './EndModal';
 import Stats from './Stats';
 import axios from 'axios';
 import apiKey from './api';
+import { Player, Channel } from 'tone';
 import './Grid.scss';
+
+const ClickSound = require("../../assets/sounds/Click.wav");
+const WinSound = require("../../assets/sounds/Win.wav");
+
+const clickPlayer = new Player({ url: ClickSound });
+const winPlayer = new Player({ url: WinSound });
 
 const url = `${apiKey}/daily`;
 const gap = 2;
@@ -21,10 +28,12 @@ const DailyGrid: FC = () => {
     const [totalSize, setTotalSize] = useState<number>(0);
     const [showModal, setShowModal] = useState<boolean>(false);
     const game: DailyGame | undefined = useSelector((state: Store): DailyGame | undefined => state.games.Daily);
+    const settings: Settings = useSelector((state: Store) => state.settings);
     const dispatch = useDispatch();
     const { isRunning, resume, stop, restart, hours, minutes, seconds, getTimeFormatted, addTime } = useTimer(250);
     const isFirstFrame = useRef(true);
     const [result, setResult] = useState<Result>({ position: 0, total: 0 });
+    const [empty, setEmpty] = useState<[number, number]>(game && game.empty ? [game!.empty[0], game!.empty[1]] : [-1, -1]);
 
     const handleClick = useCallback((x: number, y: number): void => {
         if (game!.isGameOver) return;
@@ -32,6 +41,7 @@ const DailyGrid: FC = () => {
         if (!isRunning) resume();
         if (game!.cells.every(cell => cell.x === cell.expectedX && cell.y === cell.expectedY)) {
             dispatch(actions.endGame('Daily'));
+            winPlayer.start();
             setShowModal(true);
             stop();
             axios({
@@ -56,6 +66,18 @@ const DailyGrid: FC = () => {
             });
         restart();
     }, [dispatch, restart]);
+
+    // handle volume change
+    useEffect(() => {
+        clickPlayer.disconnect();
+        winPlayer.disconnect();
+        if (settings.audio.volume === 0) return;
+        const volume = (settings.audio.volume - 100) * 0.25;
+        const clickChannel = new Channel(volume).toDestination();
+        const winChannel = new Channel(volume / 2).toDestination();
+        clickPlayer.connect(clickChannel);
+        winPlayer.connect(winChannel);
+    }, [settings]);
 
     // create game on mount
     // if it was undefined or the day has changed
@@ -90,6 +112,13 @@ const DailyGrid: FC = () => {
     useEffect(() => {
         dispatch(actions.setTimer('Daily', { hours, minutes, seconds, }));
     }, [dispatch, hours, minutes, seconds]);
+
+    // on every move make a sound
+    useEffect(() => {
+        if (game!.empty[0] === empty[0] && game!.empty[1] === empty[1]) return;
+        setEmpty(game!.empty);
+        clickPlayer.start();
+    }, [game, empty, setEmpty]);
 
     // add key down listener
     useEffect(() => {
