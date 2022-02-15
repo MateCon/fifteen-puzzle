@@ -8,7 +8,7 @@ import Cell from "../Cell/Cell";
 import EndModal from './EndModal';
 import Stats from './Stats';
 import axios from 'axios';
-import apiKey from './api';
+import apiKey from './api.hidden';
 import { Player, Channel } from 'tone';
 import './Grid.scss';
 
