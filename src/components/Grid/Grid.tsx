@@ -84,12 +84,6 @@ const Grid: FC<Props> = ({ mode }) => {
         }
     }, [game, createGame, resume, addTime, stop, isFirstFrame]);
 
-    // resize cells on resize of window
-    useEffect(() => {
-        setCellSize((window_height - 300) / size);
-        setTotalSize(cellSize * size + gap * (size - 1));
-    }, [window_height, setCellSize, setTotalSize, cellSize, size]);
-
     // update redux's timer every second
     useEffect(() => {
         dispatch(actions.setTimer(mode, { hours, minutes, seconds, }));
@@ -135,6 +129,12 @@ const Grid: FC<Props> = ({ mode }) => {
             document.removeEventListener('keydown', handleKeyDown);
         };
     }, [handleClick, game, dispatch, restart, stop, setShowModal, createGame, mode]);
+
+    // resize cells on resize of window
+    useEffect(() => {
+        setCellSize((window_height - 300) / size);
+        setTotalSize(cellSize * size + gap * (size - 1));
+    }, [window_height, setCellSize, setTotalSize, cellSize, size]);
 
     return <>
         <div className='grid-shadow' />
