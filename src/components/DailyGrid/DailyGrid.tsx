@@ -11,6 +11,7 @@ import axios from 'axios';
 import apiKey from './api.hidden';
 import { Player, Channel } from 'tone';
 import './Grid.scss';
+import { CircularProgress } from '@material-ui/core';
 
 const ClickSound = require("../../assets/sounds/Click.wav");
 const WinSound = require("../../assets/sounds/Win.wav");
@@ -150,6 +151,7 @@ const DailyGrid: FC = () => {
 
     return <>
         <div className='grid-shadow' />
+        {!game?.cells && <CircularProgress className='progress_center' style={{ color: 'black' }} />}
         <EndModal {...{ showModal, game, minutes, seconds, createGame, setShowModal, result }} />
         {game?.isGameStarted && <Stats {...{ getTimeFormatted, game }} />}
         {game && game.cells && game.cells.map(cell => <Cell
