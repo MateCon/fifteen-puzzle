@@ -115,6 +115,7 @@ const DailyGrid: FC = () => {
 
     // on every move make a sound
     useEffect(() => {
+        if (!game || !game.cells) return;
         if (game!.empty[0] === empty[0] && game!.empty[1] === empty[1]) return;
         setEmpty(game!.empty);
         clickPlayer.start();
