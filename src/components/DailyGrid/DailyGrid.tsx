@@ -39,7 +39,6 @@ const DailyGrid: FC = () => {
     const handleClick = useCallback((x: number, y: number): void => {
         if (game!.isGameOver) return;
         dispatch(actions.clickCell('Daily', x, y));
-        if (!isRunning) resume();
         if (game!.cells.every(cell => cell.x === cell.expectedX && cell.y === cell.expectedY)) {
             dispatch(actions.endGame('Daily'));
             winPlayer.start();
@@ -56,7 +55,11 @@ const DailyGrid: FC = () => {
                 setResult(res.data);
             });
         }
-    }, [dispatch, isRunning, resume, stop, game, setResult]);
+    }, [dispatch, stop, game, setResult]);
+
+    useEffect(() => {
+        if (game?.isGameStarted && !isRunning && !game.isGameOver) resume();
+    }, [game, resume, isRunning]);
 
     const createGame = useCallback(() => {
         axios

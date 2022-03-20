@@ -30,14 +30,15 @@ export default function reducer(
         case "CLICK_CELL":
             game = state.games[action.payload.size];
             if(!game) return state;
+            let data = clickCell(game, action.payload.x, action.payload.y);
             return {
                 ...state,
                 games: {
                     ...state.games,
                     [action.payload.size]: {
                         ...game,
-                        ...clickCell(game, action.payload.x, action.payload.y),
-                        isGameStarted: true
+                        ...data,
+                        isGameStarted: !state.games[action.payload.size]!.isGameStarted && data === "no_change" ? false : true
                     }
                 }
             };

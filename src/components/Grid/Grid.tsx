@@ -38,14 +38,17 @@ const Grid: FC<Props> = ({ mode }) => {
     const handleClick = useCallback((x: number, y: number): void => {
         if (game!.isGameOver) return;
         dispatch(actions.clickCell(mode, x, y));
-        if (!isRunning) resume();
         if (game!.cells.every(cell => cell.x === cell.expectedX && cell.y === cell.expectedY)) {
             dispatch(actions.endGame(mode));
             winPlayer.start();
             setShowModal(true);
             stop();
         }
-    }, [dispatch, isRunning, resume, mode, stop, game]);
+    }, [dispatch, mode, stop, game]);
+
+    useEffect(() => {
+        if (game?.isGameStarted && !isRunning) resume();
+    }, [game, resume, isRunning]);
 
     const createGame = useCallback(() => {
         dispatch(actions.createGame(mode));

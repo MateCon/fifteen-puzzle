@@ -131,7 +131,7 @@ export const clickCell = (
         }
         return { cells: state.cells, empty: [prev_x, prev_y], clickCount: state.clickCount + 1 };
     }
-    return {};
+    return "no_change";
 };
 
 export const addToStats = (
