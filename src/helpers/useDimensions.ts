@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
 const useDimensions = () => {
-    const [window_width, setWidth] = useState<number>(() => document.getElementById("root")!.clientWidth);
-    const [window_height, setHeight] = useState<number>(() => document.getElementById("root")!.clientHeight);
+    const [window_width, setWidth] = useState<number>(0);
+    const [window_height, setHeight] = useState<number>(0);
 
     useEffect(() => {
         const updateDimensions = () => {
@@ -10,6 +10,7 @@ const useDimensions = () => {
             setHeight(document.getElementById('root')!.clientHeight);
         }
 
+        updateDimensions();
         window.addEventListener('resize', updateDimensions);
 
         return () => window.removeEventListener('resize', updateDimensions);
