@@ -43,7 +43,9 @@ export const createGame = (
         for (let j = 0; j < size; j++) {
             index++;
             result.push({
-                ...current,
+                r: Math.floor(current.r * 10) / 10,
+                g: Math.floor(current.g * 10) / 10,
+                b: Math.floor(current.b * 10) / 10,
                 index,
                 x: -1,
                 y: -1,
