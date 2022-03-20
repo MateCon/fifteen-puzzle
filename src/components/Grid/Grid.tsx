@@ -101,7 +101,12 @@ const Grid: FC<Props> = ({ mode }) => {
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             const { empty } = game!;
-            switch (e.key) {
+            let key = e.key;
+            if (key === 'ArrowLeft') key = 'a'
+            if (key === 'ArrowRight') key = 'd'
+            if (key === 'ArrowUp') key = 'w'
+            if (key === 'ArrowDown') key = 's'
+            switch (key) {
                 case 'w':
                     handleClick(empty[0], empty[1] + 1);
                     break;
