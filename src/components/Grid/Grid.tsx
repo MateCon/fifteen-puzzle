@@ -141,9 +141,10 @@ const Grid: FC<Props> = ({ mode }) => {
     // resize cells on resize of window
     useEffect(() => {
         let cell_size = (window_height - 300) / size;
+        if (cellSize === cell_size) return;
         setCellSize(cell_size);
         setTotalSize(cell_size * size + gap * (size - 1));
-    }, [window_height, setCellSize, setTotalSize, size]);
+    }, [window_height, setCellSize, setTotalSize, size, cellSize]);
 
     return <>
         <div className='grid-shadow' />
