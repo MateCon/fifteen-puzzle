@@ -47,7 +47,7 @@ const Grid: FC<Props> = ({ mode }) => {
     }, [dispatch, mode, stop, game]);
 
     useEffect(() => {
-        if (game?.isGameStarted && !isRunning) resume();
+        if (game?.isGameStarted && !isRunning && !game?.isGameOver) resume();
     }, [game, resume, isRunning]);
 
     const createGame = useCallback(() => {
