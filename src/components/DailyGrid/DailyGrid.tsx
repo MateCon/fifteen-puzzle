@@ -19,7 +19,6 @@ const WinSound = require("../../assets/sounds/Win.wav");
 const clickPlayer = new Player({ url: ClickSound });
 const winPlayer = new Player({ url: WinSound });
 
-const url = `${apiKey}/daily`;
 const gap = 2;
 const size = 4;
 
@@ -46,7 +45,7 @@ const DailyGrid: FC = () => {
             stop();
             axios({
                 method: 'post',
-                url,
+                url: `${apiKey}/daily`,
                 params: {
                     clickCount: game!.clickCount,
                     time: game!.time.hours * 3600 + game!.time.minutes * 60 + game!.time.seconds
@@ -63,7 +62,7 @@ const DailyGrid: FC = () => {
 
     const createGame = useCallback(() => {
         axios
-            .get(url)
+            .get(`${apiKey}/daily`)
             .then(res => {
                 const data = res.data;
                 dispatch(actions.createDailyGame(data));
@@ -157,6 +156,21 @@ const DailyGrid: FC = () => {
         };
     }, [handleClick, game, dispatch, restart, stop, setShowModal, createGame]);
 
+    // load result
+    useEffect(() => {
+        if (!game || !game.isGameOver || result.position !== 0) return;
+        axios({
+            method: 'get',
+            url: `${apiKey}/daily-position`,
+            params: {
+                clickCount: game!.clickCount,
+                time: game!.time.hours * 3600 + game!.time.minutes * 60 + game!.time.seconds
+            }
+        }).then(res => {
+            setResult(res.data);
+        });
+    }, [setResult, game, result.position]);
+
     return <>
         <div className='grid-shadow' />
         {!game?.cells && <CircularProgress className='progress_center' style={{ color: 'black' }} />}
@@ -171,6 +185,7 @@ const DailyGrid: FC = () => {
             backgroundColor={`rgb(${cell.r}, ${cell.g}, ${cell.b})`}
             handleClick={() => handleClick(cell.x, cell.y)}
         />)}
+        {result.total !== 0 && <p className='daily-position'>{`#${result.position} out of ${result.total}`}</p>}
     </>
 }
 

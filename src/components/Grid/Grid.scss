@@ -75,3 +75,12 @@
 		transform: translateX(-10px) translateY(-5px) scale(1);
 	}
 }
+
+.daily-position {
+	font-size: 36px;
+	position: absolute;
+	top: 55px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 5;
+}
