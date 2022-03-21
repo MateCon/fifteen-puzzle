@@ -28,8 +28,13 @@ export const createGame = (
     size: number
 ): Game => {
     let result: Cell[] = [];
-    const start = generateRGB();
-    const end = generateRGB();
+    let start = generateRGB(), end = generateRGB();
+    let diff = 0
+    while(diff > -100 && diff < 100) {
+        start = generateRGB()
+        end = generateRGB()
+        diff = start.r - end.r + start.g - end.g + start.b - end.b
+    }
     const current = start;
     const delta = {
         r: (end.r - start.r) / (size - 1),
