@@ -16,6 +16,22 @@ const WinSound = require("../../assets/sounds/Win.wav");
 const clickPlayer = new Player({ url: ClickSound });
 const winPlayer = new Player({ url: WinSound });
 
+const getGridSize = (
+    windowWidth: number,
+    windowHeight: number,
+    marginX: number,
+    marginY: number
+): number => {
+    const gridWidth = windowWidth - marginX * 2;
+    const gridHeight = windowHeight - marginY * 2;
+    const gridSize = Math.min(gridWidth, gridHeight);
+    return gridSize;
+};
+
+const getCellSize = (gridSizeInPX: number, gridSizeInCellCount: number, gap: number): number => {
+    return (gridSizeInPX - (gridSizeInCellCount / gap)) / gridSizeInCellCount;
+}
+
 interface Props {
     mode: number | 'Daily';
 };
@@ -24,8 +40,8 @@ const gap = 2;
 
 const Grid: FC<Props> = ({ mode }) => {
     const size = useMemo(() => mode === 'Daily' ? 4 : mode, [mode]);
-    const { window_height } = useDimensions();
-    const [cellSize, setCellSize] = useState((window_height - 300) / size);
+    const { window_width, window_height } = useDimensions();
+    const [cellSize, setCellSize] = useState(() => getCellSize(getGridSize(window_width, window_height, 20, 140), size, gap));
     const [totalSize, setTotalSize] = useState<number>(0);
     const [showModal, setShowModal] = useState<boolean>(false);
     const game: Game | undefined = useSelector((state: Store): Game | undefined => state.games[mode]);
@@ -140,10 +156,10 @@ const Grid: FC<Props> = ({ mode }) => {
 
     // resize cells on resize of window
     useEffect(() => {
-        let cell_size = (window_height - 300) / size;
+        let cell_size = getCellSize(getGridSize(window_width, window_height, 20, 140), size, gap);
         setCellSize(cell_size);
         setTotalSize(cell_size * size + gap * (size - 1));
-    }, [window_height, setCellSize, setTotalSize, size, cellSize]);
+    }, [window_width, window_height, setCellSize, setTotalSize, size, cellSize]);
 
     return <>
         <div className='grid-shadow' />
