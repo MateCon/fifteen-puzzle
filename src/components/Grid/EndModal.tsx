@@ -23,7 +23,7 @@ const EndModal: FC<Props> = ({
 
     useEffect(() => {
         const handler = (event: KeyboardEvent) => {
-            if (event.key === "Enter") {
+            if (event.key === "Enter" && showModal) {
                 createGame();
                 setShowModal(false);
             }
@@ -34,7 +34,7 @@ const EndModal: FC<Props> = ({
         return () => {
             window.removeEventListener("keydown", handler);
         }
-    }, [createGame, setShowModal]);
+    }, [createGame, setShowModal, showModal]);
 
     return (
         <Modal show={showModal} hide={() => setShowModal(false)}>
