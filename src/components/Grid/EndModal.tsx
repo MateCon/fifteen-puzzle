@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import { Game } from '../../helpers/interface';
 import Modal from '../Modal/Modal';
 
@@ -19,6 +19,23 @@ const EndModal: FC<Props> = ({
     createGame,
     setShowModal
 }) => {
+    const btnRef = useRef(null);
+
+    useEffect(() => {
+        const handler = (event: KeyboardEvent) => {
+            if (event.key === "Enter") {
+                createGame();
+                setShowModal(false);
+            }
+        };
+
+        window.addEventListener("keydown", handler);
+
+        return () => {
+            window.removeEventListener("keydown", handler);
+        }
+    }, [createGame, setShowModal]);
+
     return (
         <Modal show={showModal} hide={() => setShowModal(false)}>
             <h1>You Won!</h1>
@@ -29,7 +46,7 @@ const EndModal: FC<Props> = ({
             </div>
             <div className="button-container">
                 <button className='close' onClick={() => setShowModal(false)}>Close</button>
-                <button className='play-again' onClick={() => {
+                <button className='play-again' ref={btnRef} onClick={() => {
                     createGame();
                     setShowModal(false);
                 }}>Play Again</button>

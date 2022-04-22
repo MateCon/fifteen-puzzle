@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Game, Result } from '../../helpers/interface';
 import Modal from '../Modal/Modal';
@@ -20,6 +20,19 @@ const EndModal: FC<Props> = ({
     result,
     setShowModal
 }) => {
+    useEffect(() => {
+        const handler = (event: KeyboardEvent) => {
+            if (event.key === "Enter")
+                setShowModal(false);
+        };
+
+        window.addEventListener("keydown", handler);
+
+        return () => {
+            window.removeEventListener("keydown", handler);
+        }
+    }, [setShowModal]);
+
     return (
         <Modal show={showModal} hide={() => setShowModal(false)}>
             <h1>You Won!</h1>
