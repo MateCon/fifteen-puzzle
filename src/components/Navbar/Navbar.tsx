@@ -75,11 +75,17 @@ const Navbar: FC = () => {
                     <p style={{ marginTop: 10, marginBottom: 10 }}>You can move a number square adjacent to the empty square by clicking it</p>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <img src={tutorial_2} style={{ width: '50%', marginTop: 5, marginBottom: 5 }} alt="initial final state" />
-                        <p>The goal is to get all the squares in numerical order from left to right and top to bottom</p>
+                        <p style={{ marginLeft: 10 }}>The goal is to get all the squares in numerical order from left to right and top to bottom</p>
                     </div>
                     <hr />
-                    <p>Created and designed by <a style={{ color: '#0fb9f2', textDecoration: 'underline' }} href="http://github.com/matecon" target="_blank" rel="norefferer noreferrer">MateCon</a></p>
-                    <p>Sound design by <a style={{ color: '#0fb9f2', textDecoration: 'underline' }} href="https://www.pabloziffer.com/?gclid=Cj0KCQjwvqeUBhCBARIsAOdt45aCdjANzA8CT-tfXjLw5K7dDbhAtukYprVohusH-ttE5qGUvXzhsYYaAk97EALw_wcB" target="_blank" rel="norefferer noreferrer">Pablo Ziffer</a></p>
+                    <div style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 10
+                    }}>
+                        <p>Created and designed by <a style={{ color: '#0fb9f2', textDecoration: 'underline' }} href="http://github.com/matecon" target="_blank" rel="norefferer noreferrer">MateCon</a></p>
+                        <p>Sound design by <a style={{ color: '#0fb9f2', textDecoration: 'underline' }} href="https://www.pabloziffer.com/?gclid=Cj0KCQjwvqeUBhCBARIsAOdt45aCdjANzA8CT-tfXjLw5K7dDbhAtukYprVohusH-ttE5qGUvXzhsYYaAk97EALw_wcB" target="_blank" rel="norefferer noreferrer">Pablo Ziffer</a></p>
+                    </div>
                 </>} <div />
             </Modal>
         </nav>
