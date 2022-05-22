@@ -66,7 +66,7 @@ const Navbar: FC = () => {
             >
                 {showTutorial && <>
                     <h2>About</h2>
-                    <p>This is a new version of the the classic game 15 puzzle or Game of Fifteen</p>
+                    <p>This is a new version of the classic game 15 puzzle aka Game of Fifteen</p>
                     <h2>Tutorial</h2>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                         <p style={{ marginRight: 10 }}>15 puzzle is a sliding puzzle consisting of an N by N board filled with number squares and one empty square</p>
