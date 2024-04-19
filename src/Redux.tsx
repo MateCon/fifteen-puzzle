@@ -6,7 +6,7 @@ import { saveState } from './Store/localstorage';
 const store = createStore();
 store.subscribe(() => saveState(store.getState()));
 
-const Redux: FC = ({ children }) => (
+const Redux: FC = ({ children }: any) => (
     <Provider store={store}>
         {children}
     </Provider>
